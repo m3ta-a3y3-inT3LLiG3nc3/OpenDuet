@@ -11,7 +11,7 @@ const READ_RE = /^(list|get|read|search|find|fetch|show|describe|status|whoami|q
 
 /** Unknown tools count as writes (gated). Second client-side guard; rea-mcp classifies too. */
 export function isHyperRead(t: Tool): boolean {
-  if (/approve|send|delete|pay|spend|purchase|post|publish/i.test(t.name)) return false;
+  if (/approve|resolve|send|message|create|update|upload|write|delete|pay|spend|purchase|post|publish/i.test(t.name)) return false;
   return t.annotations?.readOnlyHint === true || READ_RE.test(t.name);
 }
 
