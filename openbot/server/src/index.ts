@@ -188,6 +188,7 @@ import { createIntelligenceMemory } from "./memory/intelligence";
 import { createMemoryStore } from "./memory/store";
 import { reportModelAvailability } from "./model-availability-check";
 import { memoryTools } from "./memory/tools";
+import { hyperagentTools } from "./m3ta/hyperagent-tools"; // LOCAL-ONLY m3ta patch
 import { appAccessTools } from "./plugins/app-access-tool";
 import { createSignInNotifier, createSignInResumer } from "./passwords/resume";
 import { createSignInService } from "./passwords/service";
@@ -1457,6 +1458,8 @@ const loadToolsForActor =
   (actorId: string, initiator: AuditInitiator = PERSON_INITIATOR) =>
   async (botId: string) => [
     ...openDuetTools(actorId, botId, initiator),
+    // LOCAL-ONLY m3ta patch (2026-10-27): HyperAgent via rea-mcp 9783, writes ask first.
+    ...hyperagentTools({ actorId, botId, approvalGate: approvalService.gate }),
     ...wakeUpTools({
       store: wakeUpStore,
       ownerUserId: actorId,
